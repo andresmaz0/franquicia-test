@@ -1,5 +1,7 @@
 package com.accenture.prueba_back.Entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ public class ProductoEntity {
 	private String nombre;
 
 	@Column(name = "STOCK")
-	private Integer stock;
+	private BigDecimal stock;
 	
 	@ManyToOne
 	@JoinColumn(name = "SUCURSAL_ID")
@@ -43,11 +45,11 @@ public class ProductoEntity {
 		this.nombre = nombre;
 	}
 
-	public Integer getStock() {
+	public BigDecimal getStock() {
 		return stock;
 	}
 
-	public void setStock(Integer stock) {
+	public void setStock(BigDecimal stock) {
 		this.stock = stock;
 	}
 
