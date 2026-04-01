@@ -38,4 +38,16 @@ public class FranquiciaDaoImpl implements IFranquiciaDao{
 			return false;
 		}
 	}
+	
+	public FranquiciaEntity verificarExisteFranquicia(String nombre) {
+		Optional<FranquiciaEntity> optional = null;
+		
+		optional = franquiciaRepository.findByNombre(nombre);
+		
+		if(optional.isPresent()) {
+			return optional.get();
+		}else {
+			return null;
+		}
+	}
 }
