@@ -52,4 +52,24 @@ public class SucursalDaoImpl implements ISucursalDao{
 			return false;
 		}
 	}
+	
+	public SucursalEntity verificarExistenciaSucursal(String nombreFranquicia, String nombreSucursal) {
+		Optional<SucursalEntity> optional = null;
+		FranquiciaEntity franquiciaEntity = null;
+		
+		franquiciaEntity = franquiciaDao.verificarExisteFranquicia(nombreFranquicia);
+		
+		if(franquiciaEntity != null) {
+			//Encontrar por nombre sucursal y id franquicia
+			optional = sucursalRepository.findByNombreAndFranquiciaId(nombreSucursal, franquiciaEntity.getId());
+			
+			if(optional.isPresent()) {
+				return optional.get();
+			}else {
+				return null;
+			}
+		}else {
+			return null;
+		}
+	}
 }

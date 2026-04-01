@@ -1,5 +1,55 @@
 package com.accenture.prueba_back.dao;
 
-public class ProductoDaoImpl {
+import java.math.BigDecimal;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.accenture.prueba_back.Entity.ProductoEntity;
+import com.accenture.prueba_back.Entity.SucursalEntity;
+import com.accenture.prueba_back.repository.IProductoRepository;
+
+@Repository
+public class ProductoDaoImpl implements IProductolDao{
+	private static final Logger log = LoggerFactory.getLogger(ProductoDaoImpl.class);
+	
+	@Autowired
+	private ISucursalDao sucursalDao;
+	
+	@Autowired
+	private IProductoRepository productoRepository;
+	
+	public Boolean agregarProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto, Float stock) {
+		log.info("Ingresando a ProductoDaoImpl metodo agregarProducto");
+		Optional<ProductoEntity> optional = null;
+		SucursalEntity sucursalEntity = null;
+		
+		sucursalEntity = sucursalDao.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
+		
+		if(sucursalEntity != null) {
+			optional = productoRepository.findByNombreAndSucursalId(nombreProducto, sucursalEntity.getId());
+			
+			if(optional.isPresent()) {
+				log.info("Ya existe un producto con ese nombre: {} en la sucursal {}", nombreProducto, nombreSucursal);
+				return false;
+			}
+			ProductoEntity entity = new ProductoEntity();
+			entity.setNombre(nombreProducto);
+			entity.setStock(new BigDecimal(stock));
+			entity.setSucursal(sucursalEntity);
+			
+			entity = productoRepository.save(entity);
+			if(entity.getId() != null) {
+				log.info("Se guardo un nuevo producto con id {}", entity.getId());
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
 }
