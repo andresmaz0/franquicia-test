@@ -1,10 +1,8 @@
 package com.accenture.prueba_back.dto;
 
-import java.util.List;
-
 public class SucursalDto {
 	private String nombre;
-	private List<ProductoDto> listaProductos;
+	private String nombreFranquicia;
 	
 	public String getNombre() {
 		return nombre;
@@ -12,10 +10,10 @@ public class SucursalDto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public List<ProductoDto> getListaProductos() {
-		return listaProductos;
+	public String getNombreFranquicia() {
+		return nombreFranquicia;
 	}
-	public void setListaProductos(List<ProductoDto> listaProductos) {
-		this.listaProductos = listaProductos;
+	public void setNombreFranquicia(String nombreFranquicia) {
+		this.nombreFranquicia = nombreFranquicia;
 	}
 }
