@@ -31,7 +31,7 @@ public class FranquiciaController {
 	@PostMapping(path = "/nueva-franquicia")
 	public String agregarFranquicia(@RequestBody FranquiciaDto request) {
 		log.info("Ingresando a FranquiciaController metodo agregarFranquicia");
-		request.setNombre(request.getNombre().toLowerCase());
-		return franquiciaService.addFranquicia(request.getNombre()); 
+		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
+		return franquiciaService.addFranquicia(request.getNombreFranquicia()); 
 	}
 }

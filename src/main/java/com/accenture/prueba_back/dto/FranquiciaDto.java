@@ -1,12 +1,13 @@
 package com.accenture.prueba_back.dto;
 
 public class FranquiciaDto {
-	private String nombre;
-	
-	public String getNombre() {
-		return nombre;
+	private String nombreFranquicia;
+
+	public String getNombreFranquicia() {
+		return nombreFranquicia;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+
+	public void setNombreFranquicia(String nombreFranquicia) {
+		this.nombreFranquicia = nombreFranquicia;
 	}
 }

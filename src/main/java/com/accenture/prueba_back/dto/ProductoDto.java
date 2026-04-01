@@ -1,15 +1,16 @@
 package com.accenture.prueba_back.dto;
 
 public class ProductoDto {
-	private String nombre;
+	private String nombreProducto;
 	private Float cantidadStock;
 	private String nombreSucursal;
+	private String nombreFranquicia;
 	
-	public String getNombre() {
-		return nombre;
+	public String getNombreProducto() {
+		return nombreProducto;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreProducto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
 	}
 	public Float getCantidadStock() {
 		return cantidadStock;
@@ -23,5 +24,10 @@ public class ProductoDto {
 	public void setNombreSucursal(String nombreSucursal) {
 		this.nombreSucursal = nombreSucursal;
 	}
-	
+	public String getNombreFranquicia() {
+		return nombreFranquicia;
+	}
+	public void setNombreFranquicia(String nombreFranquicia) {
+		this.nombreFranquicia = nombreFranquicia;
+	}
 }

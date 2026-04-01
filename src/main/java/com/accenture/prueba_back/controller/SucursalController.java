@@ -24,8 +24,8 @@ public class SucursalController {
 	@PostMapping(path = "/nueva-sucursal")
 	public String agregarSucursal(@RequestBody SucursalDto request) {
 		log.info("Ingresando a SucursalController metodo agregarSucursal");
-		request.setNombre(request.getNombre().toLowerCase());
+		request.setNombreSucursal(request.getNombreSucursal().toLowerCase());
 		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
-		return sucursalService.addSucursal(request.getNombreFranquicia(), request.getNombre()); 
+		return sucursalService.addSucursal(request.getNombreFranquicia(), request.getNombreSucursal()); 
 	}
 }
