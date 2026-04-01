@@ -30,4 +30,15 @@ public class ProductoController {
 		return productoService.addProducto(request.getNombreFranquicia(), request.getNombreSucursal(),
 				request.getNombreProducto(), request.getCantidadStock()); 
 	}
+	
+	@CrossOrigin
+	@PostMapping(path = "/eliminar-producto")
+	public String eliminarProducto(@RequestBody ProductoDto request) {
+		log.info("Ingresando a ProductoController metodo eliminarProducto");
+		request.setNombreProducto(request.getNombreProducto().toLowerCase());
+		request.setNombreSucursal(request.getNombreSucursal().toLowerCase());
+		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
+		return productoService.deleteProducto(request.getNombreFranquicia(), request.getNombreSucursal(),
+				request.getNombreProducto()); 
+	}
 }

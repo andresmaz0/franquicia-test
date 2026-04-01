@@ -26,4 +26,17 @@ public class ProductoServiceImpl implements IProductoService {
 		}
 		return mensaje;
 	}
+	
+	public String deleteProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto) {
+		log.info("Ingresando a clase ProductoServiceImpl a metodo addProducto");
+		
+		boolean procesoAcabado = productoDao.eliminarProducto(nombreFranquicia, nombreSucursal, nombreProducto);
+		String mensaje = null;
+		if(procesoAcabado) {
+			mensaje = "Se elimino Efectivamente el producto: " + nombreProducto + " a la sucursal :" + nombreSucursal;
+		}else {
+			mensaje = "No se elimino efectivamente el producto: " + nombreProducto + " a la sucursal :" + nombreSucursal;
+		}
+		return mensaje;
+	}
 }

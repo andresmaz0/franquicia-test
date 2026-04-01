@@ -52,4 +52,26 @@ public class ProductoDaoImpl implements IProductolDao{
 			return false;
 		}
 	}
+	
+	public Boolean eliminarProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto) {
+		log.info("Ingresando a ProductoDaoImpl metodo eliminarProducto");
+		Optional<ProductoEntity> optional = null;
+		SucursalEntity sucursalEntity = null;
+		
+		sucursalEntity = sucursalDao.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
+		
+		if(sucursalEntity != null) {
+			optional = productoRepository.findByNombreAndSucursalId(nombreProducto, sucursalEntity.getId());
+			
+			if(optional.isPresent()) {
+				productoRepository.delete(optional.get());
+				log.info("Se borro existosamente el producto con ese nombre: {} de la sucursal {}", nombreProducto, nombreSucursal);
+				return true;
+			}else {
+				log.info("El producto con ese nombre: {} en la sucursal {} no existe", nombreProducto, nombreSucursal);
+				return false;
+			}
+		}
+		return false;
+	}
 }
