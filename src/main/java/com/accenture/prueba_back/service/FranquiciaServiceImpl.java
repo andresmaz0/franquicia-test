@@ -16,7 +16,14 @@ public class FranquiciaServiceImpl implements IFranquiciaService {
 	
 	public String addFranquicia(String nombre) {
 		log.info("Ingresando a clase FranquiciaServiceImpl a metodo addFranquicia");
-		franquiciaDao.agregarFranquicia(nombre);
-		return null;
+		
+		boolean procesoAcabado = franquiciaDao.agregarFranquicia(nombre);
+		String mensaje = null;
+		if(procesoAcabado) {
+			mensaje = "Se agrego Efectivamente la franquicia: " + nombre;
+		}else {
+			mensaje = "No se agrego efectivamente la franquicia: " + nombre;
+		}
+		return mensaje;
 	}
 }

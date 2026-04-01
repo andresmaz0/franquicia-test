@@ -29,9 +29,8 @@ public class FranquiciaController {
 	
 	@CrossOrigin
 	@PostMapping(path = "/nueva-franquicia")
-	public Boolean agregarFranquicia(@RequestBody FranquiciaDto request) {
+	public String agregarFranquicia(@RequestBody FranquiciaDto request) {
 		log.info("Ingresando a FranquiciaController metodo agregarFranquicia");
-		franquiciaService.addFranquicia(request.getNombre());
-		return true;
+		return franquiciaService.addFranquicia(request.getNombre()); 
 	}
 }
