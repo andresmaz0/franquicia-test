@@ -18,101 +18,91 @@ import com.accenture.prueba_back.repository.IProductoRepository;
 @Service
 public class ProductoServiceImpl implements IProductoService {
 	private static final Logger log = LoggerFactory.getLogger(ProductoServiceImpl.class);
-	
+
 	@Autowired
 	private ISucursalService sucursalService;
-	
+
 	@Autowired
 	private IProductoRepository productoRepository;
-	
+
 	public String addProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto, Float stock) {
 		log.info("Ingresando a clase ProductoServiceImpl a metodo addProducto");
 		Optional<ProductoEntity> optional = null;
 		SucursalEntity sucursalEntity = null;
-		
+
 		sucursalEntity = sucursalService.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
-		
-		if(sucursalEntity != null) {
+
+		if (sucursalEntity != null) {
 			optional = productoRepository.findByNombreAndSucursalId(nombreProducto, sucursalEntity.getId());
-			
-			if(optional.isPresent()) {
+
+			if (optional.isPresent()) {
 				log.info("Ya existe un producto con ese nombre: {} en la sucursal {}", nombreProducto, nombreSucursal);
-				return "Ya existe un producto con ese nombre:" + nombreProducto +" de la sucursal " + nombreSucursal;
+				return "Ya existe un producto con ese nombre:" + nombreProducto + " de la sucursal " + nombreSucursal;
 			}
 			ProductoEntity entity = new ProductoEntity();
 			entity.setNombre(nombreProducto);
 			entity.setStock(new BigDecimal(stock));
 			entity.setSucursal(sucursalEntity);
-			
+
 			entity = productoRepository.save(entity);
-			if(entity.getId() != null) {
+			if (entity.getId() != null) {
 				log.info("Se guardo un nuevo producto con id {}", entity.getId());
-				return "Se guardo un nuevo producto con id " +  entity.getId();
-			}else {
+				return "Se guardo un nuevo producto con id " + entity.getId();
+			} else {
 				return "no se pudo guardar el producto";
 			}
-		}else {
+		} else {
 			return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
 		}
 	}
-	
+
 	public String deleteProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto) {
 		log.info("Ingresando a clase ProductoServiceImpl a metodo deleteProducto");
-		Optional<ProductoEntity> optional = null;
-		SucursalEntity sucursalEntity = null;
-		
-		sucursalEntity = sucursalService.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
-		
-		if(sucursalEntity != null) {
-			optional = productoRepository.findByNombreAndSucursalId(nombreProducto, sucursalEntity.getId());
-			
-			if(optional.isPresent()) {
-				productoRepository.delete(optional.get());
-				log.info("Se borro existosamente el producto con ese nombre: {} de la sucursal {}", nombreProducto, nombreSucursal);
-				return "Se borro existosamente el producto con ese nombre:" + nombreProducto +" de la sucursal " + nombreSucursal;
-			}else {
-				log.info("El producto con ese nombre: {} en la sucursal {} no existe", nombreProducto, nombreSucursal);
-				return "El producto con ese nombre: "+ nombreProducto + "en la sucursal "+ nombreSucursal + "no existe";
-			}
-		}
-		return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
 
+		Optional<ProductoEntity> optional = productoRepository
+				.encontrarNombreAndNombreSucursalAndNombreFranquicia(nombreProducto, nombreSucursal, nombreFranquicia);
+
+		if (optional.isPresent()) {
+			productoRepository.delete(optional.get());
+			log.info("Se borro existosamente el producto con ese nombre: {} de la sucursal {}", nombreProducto,
+					nombreSucursal);
+			return "Se borro existosamente el producto con ese nombre:" + nombreProducto + " de la sucursal "
+					+ nombreSucursal;
+		} else {
+			log.info("El producto con ese nombre: {} en la sucursal {} no existe", nombreProducto, nombreSucursal);
+			return "El producto con ese nombre: " + nombreProducto + "en la sucursal " + nombreSucursal + "no existe";
+		}
 	}
-	
-	public String updateStockProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto, Float stock) {
+
+	public String updateStockProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto,
+			Float stock) {
 		log.info("Ingresando a clase ProductoServiceImpl a metodo updateStockProducto");
-		Optional<ProductoEntity> optional = null;
-		SucursalEntity sucursalEntity = null;
-		ProductoEntity productoEntity = null;
-		
-		sucursalEntity = sucursalService.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
-		
-		if(sucursalEntity != null) {
-			optional = productoRepository.findByNombreAndSucursalId(nombreProducto, sucursalEntity.getId());
-			
-			if(optional.isPresent()) {
-				productoEntity = optional.get();
-				productoEntity.setStock(new BigDecimal(stock));
-				productoEntity = productoRepository.save(productoEntity);
-				if(productoEntity.getId() != null) {
-					log.info("Se actualizo Stock en producto con id {}", productoEntity.getId());
-					return "Se actualizo Stock en producto con id " +  productoEntity.getId();
-				}else {
-					return "No se pudo actualizar el Stock en el producto ingresado";
-				}
+
+		Optional<ProductoEntity> optional = productoRepository
+				.encontrarNombreAndNombreSucursalAndNombreFranquicia(nombreProducto, nombreSucursal, nombreFranquicia);
+
+		if (optional.isPresent()) {
+			ProductoEntity productoEntity = optional.get();
+			productoEntity.setStock(new BigDecimal(stock));
+			productoEntity = productoRepository.save(productoEntity);
+			if (productoEntity.getId() != null) {
+				log.info("Se actualizo Stock en producto con id {}", productoEntity.getId());
+				return "Se actualizo Stock en producto con id " + productoEntity.getId();
+			} else {
+				return "No se pudo actualizar el Stock en el producto ingresado";
 			}
 		}
 		return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
 	}
-	
+
 	public List<TopProductosPorSucursal> findProductoConMasStockPorSucursal(String nombreFranquicia) {
 		log.info("Ingresando a clase ProductoServiceImpl a metodo findProductoConMasStock");
 		List<TopProductosPorSucursal> infoProductosTop = null;
 		List<ProductoEntity> topProductos = productoRepository.encontrarTopProductosPorSucursal(nombreFranquicia);
-		
-		if(!topProductos.isEmpty()) {
+
+		if (!topProductos.isEmpty()) {
 			infoProductosTop = new ArrayList<>();
-			for(ProductoEntity producto : topProductos) {
+			for (ProductoEntity producto : topProductos) {
 				TopProductosPorSucursal topProducto = new TopProductosPorSucursal();
 				topProducto.setNombreSucursal(producto.getSucursal().getNombre());
 				topProducto.setNombreProducto(producto.getNombre());
@@ -122,18 +112,18 @@ public class ProductoServiceImpl implements IProductoService {
 		}
 		return infoProductosTop;
 	}
-	
-	public String actualizarNombreProducto(String nombreActual, String nuevoNombre, String nombreFranquicia, 
+
+	public String actualizarNombreProducto(String nombreActual, String nuevoNombre, String nombreFranquicia,
 			String nombreSucursal) {
 		log.info("Ingresando a clase ProductoServiceImpl a metodo actualizarNombreProducto");
-		Optional<ProductoEntity> optional = null;
-		ProductoEntity productoEntity = null;
-		optional = productoRepository.encontrarNombreAndNombreSucursal(nombreActual, nombreSucursal);
-		
-		if(!optional.isPresent()) {
+
+		Optional<ProductoEntity> optional = productoRepository
+				.encontrarNombreAndNombreSucursalAndNombreFranquicia(nombreActual, nombreSucursal, nombreFranquicia);
+
+		if (!optional.isPresent()) {
 			return "no hay una sucursal con el nombre : " + nombreActual;
 		}
-		productoEntity = optional.get();
+		ProductoEntity productoEntity = optional.get();
 		productoEntity.setNombre(nuevoNombre);
 		productoRepository.save(productoEntity);
 		log.info("Se guardo el nuevo nombre para el producto");
