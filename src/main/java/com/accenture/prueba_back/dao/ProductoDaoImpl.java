@@ -26,7 +26,6 @@ public class ProductoDaoImpl implements IProductolDao{
 		log.info("Ingresando a ProductoDaoImpl metodo agregarProducto");
 		Optional<ProductoEntity> optional = null;
 		SucursalEntity sucursalEntity = null;
-		String mensaje = null;
 		
 		sucursalEntity = sucursalDao.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
 		
@@ -35,7 +34,7 @@ public class ProductoDaoImpl implements IProductolDao{
 			
 			if(optional.isPresent()) {
 				log.info("Ya existe un producto con ese nombre: {} en la sucursal {}", nombreProducto, nombreSucursal);
-				mensaje = "Se borro existosamente el producto con ese nombre:" + nombreProducto +" de la sucursal " + nombreSucursal;
+				return "Ya existe un producto con ese nombre:" + nombreProducto +" de la sucursal " + nombreSucursal;
 			}
 			ProductoEntity entity = new ProductoEntity();
 			entity.setNombre(nombreProducto);
@@ -45,12 +44,12 @@ public class ProductoDaoImpl implements IProductolDao{
 			entity = productoRepository.save(entity);
 			if(entity.getId() != null) {
 				log.info("Se guardo un nuevo producto con id {}", entity.getId());
-				return mensaje = "Se guardo un nuevo producto con id " +  entity.getId();
+				return "Se guardo un nuevo producto con id " +  entity.getId();
 			}else {
-				return mensaje = "no se pudo guardar el producto";
+				return "no se pudo guardar el producto";
 			}
 		}else {
-			return mensaje = "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
+			return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
 		}
 	}
 	
@@ -58,7 +57,6 @@ public class ProductoDaoImpl implements IProductolDao{
 		log.info("Ingresando a ProductoDaoImpl metodo eliminarProducto");
 		Optional<ProductoEntity> optional = null;
 		SucursalEntity sucursalEntity = null;
-		String mensaje = null;
 		
 		sucursalEntity = sucursalDao.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
 		
@@ -68,12 +66,38 @@ public class ProductoDaoImpl implements IProductolDao{
 			if(optional.isPresent()) {
 				productoRepository.delete(optional.get());
 				log.info("Se borro existosamente el producto con ese nombre: {} de la sucursal {}", nombreProducto, nombreSucursal);
-				return mensaje = "Se borro existosamente el producto con ese nombre:" + nombreProducto +" de la sucursal " + nombreSucursal;
+				return "Se borro existosamente el producto con ese nombre:" + nombreProducto +" de la sucursal " + nombreSucursal;
 			}else {
 				log.info("El producto con ese nombre: {} en la sucursal {} no existe", nombreProducto, nombreSucursal);
-				return mensaje = "El producto con ese nombre: "+ nombreProducto + "en la sucursal "+ nombreSucursal + "no existe";
+				return "El producto con ese nombre: "+ nombreProducto + "en la sucursal "+ nombreSucursal + "no existe";
 			}
 		}
-		return mensaje = "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
+		return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
+	}
+	
+	public String actualizarStock(String nombreFranquicia, String nombreSucursal, String nombreProducto, Float stock) {
+		log.info("Ingresando a ProductoDaoImpl metodo agregarProducto");
+		Optional<ProductoEntity> optional = null;
+		SucursalEntity sucursalEntity = null;
+		ProductoEntity productoEntity = null;
+		
+		sucursalEntity = sucursalDao.verificarExistenciaSucursal(nombreFranquicia, nombreSucursal);
+		
+		if(sucursalEntity != null) {
+			optional = productoRepository.findByNombreAndSucursalId(nombreProducto, sucursalEntity.getId());
+			
+			if(optional.isPresent()) {
+				productoEntity = optional.get();
+				productoEntity.setStock(new BigDecimal(stock));
+				productoEntity = productoRepository.save(productoEntity);
+				if(productoEntity.getId() != null) {
+					log.info("Se actualizo Stock en producto con id {}", productoEntity.getId());
+					return "Se actualizo Stock en producto con id " +  productoEntity.getId();
+				}else {
+					return "No se pudo actualizar el Stock en el producto ingresado";
+				}
+			}
+		}
+		return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
 	}
 }

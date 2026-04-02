@@ -41,4 +41,15 @@ public class ProductoController {
 		return productoService.deleteProducto(request.getNombreFranquicia(), request.getNombreSucursal(),
 				request.getNombreProducto()); 
 	}
+	
+	@CrossOrigin
+	@PostMapping(path = "/actualizar-stock")
+	public String actualizarStock(@RequestBody ProductoDto request) {
+		log.info("Ingresando a ProductoController metodo agregarProducto");
+		request.setNombreProducto(request.getNombreProducto().toLowerCase());
+		request.setNombreSucursal(request.getNombreSucursal().toLowerCase());
+		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
+		return productoService.updateStockProducto(request.getNombreFranquicia(), request.getNombreSucursal(),
+				request.getNombreProducto(), request.getCantidadStock()); 
+	}
 }

@@ -24,10 +24,19 @@ public class ProductoServiceImpl implements IProductoService {
 	}
 	
 	public String deleteProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto) {
-		log.info("Ingresando a clase ProductoServiceImpl a metodo addProducto");
+		log.info("Ingresando a clase ProductoServiceImpl a metodo deleteProducto");
 		String mensaje = null;
 		
 		mensaje = productoDao.eliminarProducto(nombreFranquicia, nombreSucursal, nombreProducto);
+		
+		return mensaje;
+	}
+	
+	public String updateStockProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto, Float stock) {
+		log.info("Ingresando a clase ProductoServiceImpl a metodo updateStockProducto");
+		String mensaje = null;
+		
+		mensaje = productoDao.actualizarStock(nombreFranquicia, nombreSucursal, nombreProducto, stock);
 		
 		return mensaje;
 	}
