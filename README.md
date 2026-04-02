@@ -27,4 +27,4 @@ Por ultimo, si desea usar el proyecto en local debe:
 1. De clonar el codigo en su maquina local
 comando: git clone https://github.com/tu-usuario/gestion-franquicias.git
 
-2.Poner yml tu url, usuario y contraseño de tu base de datos personal para conectarse con una BD MySQL, que tenga las tablas creadas como las entidades del codigo.
+2. Poner yml tu url, usuario y contraseño de tu base de datos personal para conectarse con una BD MySQL, que tenga las tablas creadas como las entidades del codigo.
