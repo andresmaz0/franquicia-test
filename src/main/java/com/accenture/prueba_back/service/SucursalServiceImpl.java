@@ -52,6 +52,18 @@ public class SucursalServiceImpl implements ISucursalService {
 		}
 	}
 	
+	public String actualizarNombreSucursal(String nombreActual, String nuevoNombre, String nombreFranquicia) {
+		SucursalEntity sucursal = verificarExistenciaSucursal(nombreFranquicia, nombreActual);
+		
+		if(sucursal == null) {
+			return "no hay una sucursal con el nombre : " + nombreActual;
+		}
+		sucursal.setNombre(nuevoNombre);
+		sucursalRepository.save(sucursal);
+		log.info("Se guardo el nuevo nombre para la sucursal");
+		return "La sucursal con el nombre: " + nombreActual + " tiene ahora el nombre de: " + nuevoNombre;
+	}
+	
 	public SucursalEntity verificarExistenciaSucursal(String nombreFranquicia, String nombreSucursal) {
 		Optional<SucursalEntity> optional = null;
 		FranquiciaEntity franquiciaEntity = null;

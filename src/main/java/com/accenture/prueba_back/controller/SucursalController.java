@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accenture.prueba_back.dto.ActualizarNombreSucursal;
 import com.accenture.prueba_back.dto.SucursalDto;
 import com.accenture.prueba_back.service.ISucursalService;
 
@@ -27,5 +28,15 @@ public class SucursalController {
 		request.setNombreSucursal(request.getNombreSucursal().toLowerCase());
 		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
 		return sucursalService.addSucursal(request.getNombreFranquicia(), request.getNombreSucursal()); 
+	}
+	
+	@CrossOrigin
+	@PostMapping(path = "/actualizar-nombre-sucursal")
+	public String actualizarNombreSucursal(@RequestBody ActualizarNombreSucursal request) {
+		log.info("Ingresando a FranquiciaController metodo actualizarNombreSucursal");
+		request.setNombreActual(request.getNombreActual().toLowerCase());
+		request.setNuevoNombre(request.getNuevoNombre().toLowerCase());
+		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
+		return sucursalService.actualizarNombreSucursal(request.getNombreActual(), request.getNuevoNombre(),request.getNombreFranquicia()); 
 	}
 }
