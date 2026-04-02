@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accenture.prueba_back.Entity.ProductoEntity;
+import com.accenture.prueba_back.dto.ActualizarNombreProducto;
 import com.accenture.prueba_back.dto.FranquiciaDto;
 import com.accenture.prueba_back.dto.ProductoDto;
 import com.accenture.prueba_back.model.TopProductosPorSucursal;
@@ -64,5 +64,17 @@ public class ProductoController {
 		log.info("Ingresando a ProductoController metodo productoMasStockPorSucursal");
 		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
 		return productoService.findProductoConMasStockPorSucursal(request.getNombreFranquicia()); 
+	}
+	
+	@CrossOrigin
+	@PostMapping(path = "/actualizar-nombre-producto")
+	public String actualizarNombreProducto(@RequestBody ActualizarNombreProducto request) {
+		log.info("Ingresando a FranquiciaController metodo actualizarNombreProducto");
+		request.setNombreActual(request.getNombreActual().toLowerCase());
+		request.setNuevoNombre(request.getNuevoNombre().toLowerCase());
+		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
+		request.setNombreSucursal(request.getNombreSucursal().toLowerCase());
+		return productoService.actualizarNombreProducto(request.getNombreActual(), request.getNuevoNombre(),
+				request.getNombreFranquicia(), request.getNombreSucursal()); 
 	}
 }

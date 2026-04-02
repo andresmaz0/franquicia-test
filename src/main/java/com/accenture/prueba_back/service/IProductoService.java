@@ -9,4 +9,5 @@ public interface IProductoService {
 	String deleteProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto);
 	String updateStockProducto(String nombreFranquicia, String nombreSucursal, String nombreProducto, Float stock);
 	List<TopProductosPorSucursal> findProductoConMasStockPorSucursal(String nombreFranquicia);
+	String actualizarNombreProducto(String nombreActual, String nuevoNombre, String nombreFranquicia, String nombreSucursal);
 }

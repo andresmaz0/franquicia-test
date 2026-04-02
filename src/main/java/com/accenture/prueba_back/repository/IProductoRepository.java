@@ -17,6 +17,12 @@ public interface IProductoRepository extends JpaRepository<ProductoEntity, Integ
 		    @Param("sucursalId") Integer sucursalId
 		);
 	
+	@Query("SELECT p FROM ProductoEntity p WHERE p.nombre = :nombre AND p.sucursal.nombre = :nombreSucursal")
+	Optional<ProductoEntity> encontrarNombreAndNombreSucursal(
+			@Param("nombre") String nombre,
+			@Param("nombreSucursal") String nombreSucursal
+			);
+	
 	@Query("SELECT p FROM ProductoEntity p " +
 		       "JOIN p.sucursal s " +
 		       "JOIN s.franquicia f " +

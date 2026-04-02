@@ -122,4 +122,21 @@ public class ProductoServiceImpl implements IProductoService {
 		}
 		return infoProductosTop;
 	}
+	
+	public String actualizarNombreProducto(String nombreActual, String nuevoNombre, String nombreFranquicia, 
+			String nombreSucursal) {
+		log.info("Ingresando a clase ProductoServiceImpl a metodo actualizarNombreProducto");
+		Optional<ProductoEntity> optional = null;
+		ProductoEntity productoEntity = null;
+		optional = productoRepository.encontrarNombreAndNombreSucursal(nombreActual, nombreSucursal);
+		
+		if(!optional.isPresent()) {
+			return "no hay una sucursal con el nombre : " + nombreActual;
+		}
+		productoEntity = optional.get();
+		productoEntity.setNombre(nuevoNombre);
+		productoRepository.save(productoEntity);
+		log.info("Se guardo el nuevo nombre para el producto");
+		return "La producto con el nombre: " + nombreActual + " tiene ahora el nombre de: " + nuevoNombre;
+	}
 }
