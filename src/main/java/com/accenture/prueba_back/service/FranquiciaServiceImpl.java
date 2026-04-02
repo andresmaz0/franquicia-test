@@ -39,6 +39,18 @@ public class FranquiciaServiceImpl implements IFranquiciaService {
 		}
 	}
 	
+	public String actualizarNombreFranquicia(String nombreActual, String nuevoNombre) {
+		FranquiciaEntity franquicia = verificarExisteFranquicia(nombreActual);
+		
+		if(franquicia == null) {
+			return "no hay una franquicia con el nombre : " + nombreActual;
+		}
+		franquicia.setNombre(nuevoNombre);
+		franquiciaRepository.save(franquicia);
+		log.info("Se guardo el nuevo nombre para la franquicia");
+		return "La franquicia con el nombre: " + nombreActual + " tiene ahora el nombre de: " + nuevoNombre;
+	}
+	
 	public FranquiciaEntity verificarExisteFranquicia(String nombre) {
 		Optional<FranquiciaEntity> optional = null;
 		

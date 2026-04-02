@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accenture.prueba_back.dto.ActualizarNombre;
 import com.accenture.prueba_back.dto.FranquiciaDto;
 import com.accenture.prueba_back.service.IFranquiciaService;
 
@@ -33,5 +34,14 @@ public class FranquiciaController {
 		log.info("Ingresando a FranquiciaController metodo agregarFranquicia");
 		request.setNombreFranquicia(request.getNombreFranquicia().toLowerCase());
 		return franquiciaService.addFranquicia(request.getNombreFranquicia()); 
+	}
+	
+	@CrossOrigin
+	@PostMapping(path = "/actualizar-nombre-franquicia")
+	public String actualizarNombreFranquicia(@RequestBody ActualizarNombre request) {
+		log.info("Ingresando a FranquiciaController metodo actualizarNombreFranquicia");
+		request.setNombreActual(request.getNombreActual().toLowerCase());
+		request.setNuevoNombre(request.getNuevoNombre().toLowerCase());
+		return franquiciaService.actualizarNombreFranquicia(request.getNombreActual(), request.getNuevoNombre()); 
 	}
 }
