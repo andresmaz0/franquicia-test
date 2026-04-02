@@ -1,6 +1,8 @@
 package com.accenture.prueba_back.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.accenture.prueba_back.Entity.ProductoEntity;
 import com.accenture.prueba_back.Entity.SucursalEntity;
+import com.accenture.prueba_back.model.TopProductosPorSucursal;
 import com.accenture.prueba_back.repository.IProductoRepository;
 
 @Service
@@ -100,5 +103,23 @@ public class ProductoServiceImpl implements IProductoService {
 			}
 		}
 		return "No hay una sucursal con el nombre " + nombreSucursal + "con el producto: " + nombreProducto;
+	}
+	
+	public List<TopProductosPorSucursal> findProductoConMasStockPorSucursal(String nombreFranquicia) {
+		log.info("Ingresando a clase ProductoServiceImpl a metodo findProductoConMasStock");
+		List<TopProductosPorSucursal> infoProductosTop = null;
+		List<ProductoEntity> topProductos = productoRepository.encontrarTopProductosPorSucursal(nombreFranquicia);
+		
+		if(!topProductos.isEmpty()) {
+			infoProductosTop = new ArrayList<>();
+			for(ProductoEntity producto : topProductos) {
+				TopProductosPorSucursal topProducto = new TopProductosPorSucursal();
+				topProducto.setNombreSucursal(producto.getSucursal().getNombre());
+				topProducto.setNombreProducto(producto.getNombre());
+				topProducto.setMaxStock(producto.getStock().floatValue());
+				infoProductosTop.add(topProducto);
+			}
+		}
+		return infoProductosTop;
 	}
 }
