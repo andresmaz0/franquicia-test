@@ -16,14 +16,10 @@ public class SucursalServiceImpl implements ISucursalService {
 	
 	public String addSucursal(String nombreFranquicia, String nombreSucursal) {
 		log.info("Ingresando a clase SucursalServiceImpl a metodo addSucursal");
-		
-		boolean procesoAcabado = sucursalDao.agregarSucursal(nombreFranquicia, nombreSucursal);
 		String mensaje = null;
-		if(procesoAcabado) {
-			mensaje = "Se agrego Efectivamente la Sucursal: " + nombreSucursal + " a la franquicia :" + nombreFranquicia;
-		}else {
-			mensaje = "No se agrego efectivamente la Sucursal: " + nombreSucursal + " a la franquicia :" + nombreFranquicia;
-		}
+		
+		mensaje = sucursalDao.agregarSucursal(nombreFranquicia, nombreSucursal);
+
 		return mensaje;
 	}
 }

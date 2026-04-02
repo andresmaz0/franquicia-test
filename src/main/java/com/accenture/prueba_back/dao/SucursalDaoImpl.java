@@ -23,7 +23,7 @@ public class SucursalDaoImpl implements ISucursalDao{
 	@Autowired
 	private IFranquiciaDao franquiciaDao;
 	
-	public Boolean agregarSucursal(String nombreFranquicia, String nombreSucursal) {
+	public String agregarSucursal(String nombreFranquicia, String nombreSucursal) {
 		Optional<SucursalEntity> optional = null;
 		FranquiciaEntity franquiciaEntity = null;
 		
@@ -35,7 +35,7 @@ public class SucursalDaoImpl implements ISucursalDao{
 			
 			if(optional.isPresent()) {
 				log.info("Ya existe una sucursal con ese nombre: {}", nombreSucursal);
-				return false;
+				return "Ya existe una sucursal con ese nombre: " + nombreSucursal;
 			}
 			SucursalEntity entity = new SucursalEntity();
 			entity.setNombre(nombreSucursal);
@@ -44,12 +44,12 @@ public class SucursalDaoImpl implements ISucursalDao{
 			entity = sucursalRepository.save(entity);
 			if(entity.getId() != null) {
 				log.info("Se guardo una nueva sucursal con id {}", entity.getId());
-				return true;
+				return "Se guardo una nueva sucursal con id " + entity.getId();
 			}else {
-				return false;
+				return "No se guardo efectivamente la sucursal ingresada";
 			}
 		}else {
-			return false;
+			return "La franquicia ingresada no existe por lo que no se pudo guardar la sucursal";
 		}
 	}
 	

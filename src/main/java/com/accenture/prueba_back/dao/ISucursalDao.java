@@ -3,6 +3,6 @@ package com.accenture.prueba_back.dao;
 import com.accenture.prueba_back.Entity.SucursalEntity;
 
 public interface ISucursalDao {
-	Boolean agregarSucursal(String nombreFranquicia, String nombreSucursal);
+	String agregarSucursal(String nombreFranquicia, String nombreSucursal);
 	SucursalEntity verificarExistenciaSucursal(String nombreFranquicia, String nombreSucursal);
 }

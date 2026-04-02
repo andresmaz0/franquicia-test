@@ -18,14 +18,14 @@ public class FranquiciaDaoImpl implements IFranquiciaDao{
 	@Autowired
 	private IFranquiciaRepository franquiciaRepository;
 	
-	public Boolean agregarFranquicia(String nombre) {
+	public String agregarFranquicia(String nombre) {
 		Optional<FranquiciaEntity> optional = null;
 		
 		optional = franquiciaRepository.findByNombre(nombre);
 		
 		if(optional.isPresent()) {
 			log.info("Ya existe una franquicia con ese nombre: {}", nombre);
-			return false;
+			return "Ya existe una franquicia con ese nombre: " + nombre;
 		}
 		FranquiciaEntity entity = new FranquiciaEntity();
 		entity.setNombre(nombre);
@@ -33,9 +33,9 @@ public class FranquiciaDaoImpl implements IFranquiciaDao{
 		entity = franquiciaRepository.save(entity);
 		if(entity.getId() != null) {
 			log.info("Se guardo una nueva franquicia con id {}", entity.getId());
-			return true;
+			return "Se guardo una nueva franquicia con id " + entity.getId();
 		}else {
-			return false;
+			return "No se pudo guardar correctamente la franquicia ingresada";
 		}
 	}
 	
