@@ -23,7 +23,7 @@ public class FranquiciaController {
 	private IFranquiciaService franquiciaService;
 	
 	@CrossOrigin
-	@GetMapping(path = "/")
+	@GetMapping(path = "/run/")
 	public String testInicial() {
 		return "APP franquicias funcionando";
 	}
