@@ -11,4 +11,4 @@ spring:
       max-file-size: 1MB
       max-request-size: 1MB
   config:
-    import: "C:/Users/andre/Documents/Prueba Accenture Back/conf/app-franquicias.yml"
+    import: "app-franquicias.yml"
