@@ -2,26 +2,28 @@
 Este proyecto tiene como finalidad gestionar las franquicias, sus sucursales y productos que tienen en stock.
 Esto fue hecho en java 21 con spring boot 4.0.5 sigue una Arquitectura por Capas, lo que facilita el mantenimiento y la escalabilidad, respetando los principios de la Programación Orientada a Objetos (POO), con gestor de dependencias con Maven tiendo como motor de base de datos MySQL gestionado en la nube mediante AWS RDS y todo el proyecto desplegado en el servicio de la nube de Google Cloud Platform(GCP).
 
-Esquema entidad-Relacion:
-FRANQUICIA (id_franquicia, nombre)--1-N--SUCURSAL (id_sucursal, nombre, id_franquicia)--1-N--PRODUCTO (id_producto, nombre, stock, id_sucursal)
+Esquema entidad-Relacion:  
+FRANQUICIA (id_franquicia, nombre)--1-N--SUCURSAL (id_sucursal, nombre, id_franquicia)--1-N--PRODUCTO (id_producto, nombre, stock, id_sucursal)  
+<img width="895" height="547" alt="image" src="https://github.com/user-attachments/assets/ac8bb0c1-0a43-409e-b893-0e2604ffacc8" />
+
 
 El endpoint para consumir los servicios es: https://gestiondefranquicias-1018730821556.northamerica-south1.run.app
 
-Algunos de los servicios son:
-agregar franquicia: /app-franquicias/api/v1/nueva-franquicia (POST)
-ingresando en body: 
-{
-    "nombreFranquicia":"McDonals"
-}
+Algunos de los servicios son:  
+agregar franquicia: /app-franquicias/api/v1/nueva-franquicia (POST)  
+ingresando en body:   
+{  
+    "nombreFranquicia":"McDonals"  
+}  
 
-agregar producto: /app-franquicias/api/v1/nuevo-producto (POST)
-ingresando en body:
-{
-    "nombreProducto": "kilos de lechuga",
-    "cantidadStock": 1,
-    "nombreSucursal":"bellocol",
-    "nombreFranquicia": "McDonals"
-}
+agregar producto: /app-franquicias/api/v1/nuevo-producto (POST)  
+ingresando en body:  
+{  
+    "nombreProducto": "kilos de lechuga",  
+    "cantidadStock": 1,  
+    "nombreSucursal":"bellocol",  
+    "nombreFranquicia": "McDonals"  
+}  
 
 Por ultimo, si desea usar el proyecto en local debe:
 1. De clonar el codigo en su maquina local
